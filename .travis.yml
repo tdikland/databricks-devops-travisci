@@ -1,0 +1,17 @@
+language: python
+python:
+- '3.9'
+install:
+- pip install --upgrade nutter
+- pip install --upgrade databricks-cli
+- pip install codecov
+- pip install -r requirements.txt
+script:
+- nutter run "/Repos/tim.dikland@databricks.com/adevinta-devops-ninja/"
+  --cluster_id $CLUSTER_ID --recursive --junit_report --timeout 500
+- pytest test/ --cov=lib/
+env:
+  global:
+  - secure: IOrVgEbn8fPOLyq/juJnUCFHBRKhOuMzGRlRxqRFY+XK9Nopvrw9+/PiKmh8TjSFjJwevxA/gInoUGo+1bES5V2JQHTPVFIkoGizPRDUZmnMOdqwSILjqZc2kZEkv+ELCsor95pR9JyZNZ55Xp4yKX0h9OnuWydkdfgCIi8sPomtYVxu476mkye6x8ms3FkrzG+hueDu+B1eNHQQYlalRngxpkGtIBkLYR6W4Z5MVvMRZ1wvmLBgNOMxHmOrMMjs5LycArkOtIDGcGhkTfKjAF9ZQu/JufzEZ6tLrC5hgAhtTdRoyFP5lLGxBRQ+Ip5FtXXrUowBQuGFba18UQ2Sq2xUS5+qJP04+X2+h/lSCdbvW2fuQtzCiA2BCTwVp32fjHmkSxyDElc2l7JOQayDoLNp5eoLKjxe3U2XfpKOIooEqOYYeK4BOyfL4p9xQuko+36h8S62JuERD0/25dL4T0T4sgtxdA3nuu7pK0GRb/+ytFI/nYg9XqaoT8eGFwTohsqVu7GeWivd9z4hZVPIWen+YFNqliCAFZ+EYz5qlohmc3kikx8lc6DYICZU3TGXTQt9SoQURx8rZuaTbZ8mOhb0ScnE9/MXj0mwi5AB5tcMO1RLaJtLEa4m+hAo4gptT7SaVv5wwxlo5lR8lvbJS2/2DHfKuXlTP3tGsNgujX4=
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
